@@ -72,6 +72,8 @@ def load_config():
     
     # Debug logging for deployment troubleshooting
     logger.info(f"🔍 Environment variable GROQ_API_KEY: {'SET' if groq_api_key else 'NOT SET'}")
+    logger.info(f"🔍 Railway Environment Check - All env vars: {list(os.environ.keys())}")
+    
     if groq_api_key:
         logger.info(f"🔑 Using API key from environment variable: {groq_api_key[:10]}...")
         return {"groq_api_key": groq_api_key}
