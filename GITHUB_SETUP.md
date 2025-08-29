@@ -8,7 +8,7 @@
 cd linkedin-post-generator
 git init
 git add .
-git commit -m "Initial commit: LinkedIn Post Generator with agentic AI"
+git commit -m "Initial commit: Enhanced LinkedIn Post Generator with agentic AI, web search, performance metrics, and content moderation"
 ```
 
 ### Step 2: Create GitHub Repository
@@ -16,7 +16,7 @@ git commit -m "Initial commit: LinkedIn Post Generator with agentic AI"
 1. Go to [GitHub.com](https://github.com)
 2. Click "New repository" or go to https://github.com/new
 3. Name it: `linkedin-post-generator`
-4. Add description: "AI-powered LinkedIn post generator with multi-step agentic workflow"
+4. Add description: "🚀 Enhanced AI-powered LinkedIn post generator with real-time web search, performance metrics, and content moderation"
 5. Choose **Public** for open-source sharing or **Private** for personal use
 6. **Don't** check "Add a README file" (we already have one)
 7. Click "Create repository"
@@ -139,16 +139,18 @@ Add `vercel.json`:
 For your GitHub repository description:
 
 ```
-🤖 AI-powered LinkedIn Post Generator with agentic workflow
+🚀 Enhanced AI-powered LinkedIn Post Generator with agentic workflow
 
 ✨ Features:
-• Multi-step AI generation (brainstorm → draft → refine)
+• Multi-step AI generation with real-time web search
+• Performance metrics dashboard and monitoring
+• Content moderation and safety checks
 • Professional web interface with copy-to-clipboard
-• FastAPI backend with auto-generated docs
+• FastAPI backend with comprehensive error handling
 • Customizable tone, audience, and post count
 • Responsive design for all devices
 
-🛠️ Tech Stack: Python, FastAPI, Groq AI, Vanilla JS, Modern CSS
+🛠️ Tech Stack: Python, FastAPI, Groq AI, DuckDuckGo Search, Vanilla JS, Modern CSS
 
 🚀 Live Demo: [your-deployed-url]
 ```
@@ -164,6 +166,9 @@ Add these topics to your repository for better discoverability:
 - `llm`
 - `agentic-ai`
 - `content-generation`
+- `web-search`
+- `content-moderation`
+- `performance-metrics`
 - `python`
 - `javascript`
 
@@ -190,8 +195,13 @@ Add these topics to your repository for better discoverability:
 ├── requirements.txt
 ├── config.example.json
 ├── README.md
+├── ARCHITECTURE.md
+├── ENHANCEMENT_SUMMARY.md
+├── REVIEW_REQUEST.md
+├── GITHUB_SETUP.md
 ├── test_basic.py
 ├── test_api.py
+├── test_enhanced.py
 └── start_server.bat
 ```
 

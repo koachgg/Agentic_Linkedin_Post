@@ -1,24 +1,52 @@
-# LinkedIn Post Generator
+# LinkedIn Post Generator - Enhanced Edition
 
-A fully functional web application that generates engaging LinkedIn posts using AI. Built with FastAPI backend and modern HTML/CSS/JavaScript frontend.
+A fully functional web application that generates engaging LinkedIn posts using advanced agentic AI. Built with FastAPI backend and modern HTML/CSS/JavaScript frontend, now enhanced with real-time web search, performance metrics, and content moderation.
+
+## 🚀 New Enhanced Features
+
+### 🔍 **Real-time Web Search Integration**
+- Optional web search to enhance posts with current, factual information
+- Uses DuckDuckGo search for privacy-friendly data retrieval
+- Seamlessly integrates search context into the agentic workflow
+
+### 📊 **Performance Metrics Dashboard**
+- Real-time tracking of API latency and token usage
+- Visual metrics display showing generation time, API calls, and efficiency
+- Performance optimization insights for users
+
+### 🛡️ **Content Moderation System**
+- Automatic filtering of inappropriate content
+- Smart detection of spam patterns and excessive formatting
+- User-friendly moderation messages with retry suggestions
+
+### ⚡ **Enhanced Error Handling**
+- Specific exception handling for different error types
+- Graceful degradation when services are unavailable
+- Detailed error messages with recovery instructions
 
 ## Features
 
-- **Agentic AI Logic**: Multi-step process for generating high-quality posts
+- **Advanced Agentic AI Logic**: Multi-step process for generating high-quality posts
+  - Step 0: Real-time web research (optional)
   - Step A: Brainstorming unique angles for your topic
   - Step B: Drafting engaging posts with customizable tone and audience
   - Step C: Adding relevant hashtags and compelling call-to-actions
+  - Step D: Content moderation and safety checks
 
-- **Professional Web Interface**: Clean, responsive design with card-based post display
+- **Professional Web Interface**: Clean, responsive design with real-time metrics
 - **Customizable Parameters**: 
   - Topic (required)
   - Tone (professional, casual, inspirational, etc.)
   - Target audience
   - Number of posts (1-10)
+  - Web search enhancement toggle
 
-- **Copy-to-Clipboard**: Easy sharing with one-click copy functionality
-- **Real-time Validation**: Form validation and error handling
-- **API Documentation**: Built-in Swagger UI for API testing
+- **Advanced Features**:
+  - Copy-to-clipboard functionality
+  - Performance metrics display
+  - Content moderation indicators
+  - Real-time validation and error handling
+  - API documentation with Swagger UI
 
 ## Project Structure
 
@@ -239,6 +267,43 @@ gunicorn main:app -w 4 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000
 2. Visit http://localhost:8000/health to verify API status
 3. Test the API directly at http://localhost:8000/docs
 4. Ensure Python environment is properly configured
+
+## 🆕 Enhanced API Documentation
+
+### Enhanced Features in API
+
+#### Web Search Integration
+- Add `"use_web_search": true` to your request to enhance posts with real-time data
+- The system will automatically search for current information about your topic
+- Search results are integrated into the brainstorming and drafting phases
+
+#### Performance Metrics
+- Every response now includes detailed performance metrics
+- Track API latency, token usage, and efficiency
+- Monitor the impact of web search on generation time
+
+#### Content Moderation
+- All generated posts are automatically screened for inappropriate content
+- Moderated posts are replaced with user-friendly messages
+- Helps ensure professional, appropriate content for LinkedIn
+
+#### Error Handling
+- **502 Bad Gateway**: AI service temporarily unavailable
+- **400 Bad Request**: Invalid input parameters
+- **500 Internal Server Error**: Unexpected server issues
+
+### Sample Enhanced Request
+```bash
+curl -X POST "http://localhost:8000/generate_posts" \
+-H "Content-Type: application/json" \
+-d '{
+    "topic": "remote work productivity",
+    "tone": "inspirational",
+    "audience": "remote workers",
+    "post_count": 2,
+    "use_web_search": true
+}'
+```
 
 ## License
 

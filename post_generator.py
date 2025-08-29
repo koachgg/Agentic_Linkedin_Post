@@ -1,24 +1,38 @@
 """
 LinkedIn Post Generator with Agentic AI Logic
-Extracted and adapted from LinkedIn Sourcing Agent
+Enhanced with web search, performance metrics, and content moderation
 """
 
 import asyncio
 import json
 import logging
-from typing import List, Dict, Optional
+import time
+import re
+from typing import List, Dict, Optional, Tuple
 import aiohttp
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
+# Custom exceptions
+class LLMProviderError(Exception):
+    """Custom exception for LLM provider issues"""
+    pass
+
+class ContentModerationError(Exception):
+    """Custom exception for content moderation issues"""
+    pass
+
 class LLMClient:
-    """Unified LLM client supporting Gemini and Groq APIs"""
+    """Unified LLM client supporting Gemini and Groq APIs with performance tracking"""
     
     def __init__(self, provider: str = "groq", api_key: str = ""):
         self.provider = provider.lower()
         self.api_key = api_key
+        self.total_tokens = 0
+        self.total_latency = 0.0
+        self.call_count = 0
         
         if self.provider not in ["gemini", "groq"]:
             raise ValueError("Provider must be 'gemini' or 'groq'")
@@ -36,6 +50,15 @@ class LLMClient:
             self.base_url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent"
         elif self.provider == "groq":
             self.base_url = "https://api.groq.com/openai/v1/chat/completions"
+    
+    def get_metrics(self) -> Dict:
+        """Get performance metrics"""
+        return {
+            "total_tokens": self.total_tokens,
+            "total_latency": round(self.total_latency, 3),
+            "call_count": self.call_count,
+            "avg_latency_per_call": round(self.total_latency / max(self.call_count, 1), 3)
+        }
     
     async def generate_text(self, prompt: str, max_tokens: int = 1000) -> str:
         """Generate text using real API or mock response"""
@@ -79,7 +102,9 @@ class LLMClient:
             return self._mock_response(prompt)
     
     async def _call_groq(self, prompt: str, max_tokens: int) -> str:
-        """Call Groq API"""
+        """Call Groq API with performance tracking"""
+        start_time = time.time()
+        
         try:
             async with aiohttp.ClientSession() as session:
                 headers = {
@@ -95,19 +120,41 @@ class LLMClient:
                 }
                 
                 async with session.post(self.base_url, json=payload, headers=headers) as response:
+                    end_time = time.time()
+                    latency = end_time - start_time
+                    self.total_latency += latency
+                    self.call_count += 1
+                    
                     if response.status == 200:
                         data = await response.json()
                         text = data["choices"][0]["message"]["content"]
-                        logger.info("✅ Groq API call successful")
+                        
+                        # Track token usage if available
+                        if "usage" in data:
+                            tokens = data["usage"].get("total_tokens", 0)
+                            self.total_tokens += tokens
+                        
+                        logger.info(f"✅ Groq API call successful ({latency:.2f}s)")
                         return text
                     else:
                         error_text = await response.text()
                         logger.error(f"❌ Groq API error {response.status}: {error_text}")
-                        return self._mock_response(prompt)
+                        raise LLMProviderError(f"Groq API error {response.status}: {error_text}")
                         
+        except aiohttp.ClientError as e:
+            end_time = time.time()
+            latency = end_time - start_time
+            self.total_latency += latency
+            self.call_count += 1
+            logger.error(f"❌ Groq API connection error: {str(e)}")
+            raise LLMProviderError(f"Connection error: {str(e)}")
         except Exception as e:
-            logger.error(f"❌ Groq API exception: {str(e)}")
-            return self._mock_response(prompt)
+            end_time = time.time()
+            latency = end_time - start_time
+            self.total_latency += latency
+            self.call_count += 1
+            logger.error(f"❌ Groq API unexpected error: {str(e)}")
+            raise LLMProviderError(f"Unexpected error: {str(e)}")
     
     def _mock_response(self, prompt: str) -> str:
         """Generate mock response as fallback"""
@@ -139,13 +186,112 @@ What's one thing you've learned recently that changed your perspective? I'd love
             return "Mock response - API call failed or not configured"
 
 
+# Web search functionality
+async def web_search(query: str, max_results: int = 3) -> str:
+    """
+    Perform web search using DuckDuckGo and return formatted context
+    """
+    try:
+        logger.info(f"🔍 Performing web search for: {query}")
+        
+        # Import here to avoid issues if package is not available
+        try:
+            from duckduckgo_search import DDGS
+        except ImportError:
+            logger.warning("DuckDuckGo search not available, skipping web search")
+            return ""
+        
+        # Use DuckDuckGo search
+        with DDGS() as ddgs:
+            results = list(ddgs.text(query, max_results=max_results))
+        
+        if not results:
+            logger.warning("⚠️ No search results found")
+            return ""
+        
+        # Format results into context
+        context_parts = []
+        for i, result in enumerate(results, 1):
+            title = result.get('title', 'No title')
+            snippet = result.get('body', 'No description')
+            context_parts.append(f"{i}. {title}: {snippet}")
+        
+        context = "\n".join(context_parts)
+        logger.info(f"✅ Found {len(results)} search results")
+        return context
+        
+    except Exception as e:
+        logger.error(f"❌ Web search failed: {str(e)}")
+        return ""
+
+
+# Content moderation
+def moderate_content(text: str) -> Tuple[bool, str]:
+    """
+    Simple content moderation function
+    Returns (is_clean, reason_if_not_clean)
+    """
+    # List of inappropriate words/phrases to filter
+    banned_words = [
+        # Add more comprehensive list as needed
+        'spam', 'scam', 'hate', 'violence', 'discriminat', 'harass',
+        'illegal', 'fraud', 'misleading', 'fake news', 'misinformation'
+    ]
+    
+    # Convert to lowercase for checking
+    text_lower = text.lower()
+    
+    # Check for banned words
+    for word in banned_words:
+        if word in text_lower:
+            return False, f"Contains potentially inappropriate content: '{word}'"
+    
+    # Check for excessive capitalization (potential spam)
+    if len(text) > 50:  # Only check if text is substantial
+        caps_count = sum(1 for c in text if c.isupper())
+        caps_ratio = caps_count / len(text)
+        if caps_ratio > 0.7:  # More than 70% caps
+            return False, "Excessive capitalization detected"
+    
+    # Check for excessive punctuation (potential spam)
+    punct_pattern = r'[!]{3,}|[?]{3,}|[.]{3,}'
+    if re.search(punct_pattern, text):
+        return False, "Excessive punctuation detected"
+    
+    return True, ""
+
+
+def apply_content_moderation(posts: List[Dict]) -> List[Dict]:
+    """
+    Apply content moderation to a list of posts
+    """
+    moderated_posts = []
+    
+    for i, post in enumerate(posts):
+        is_clean, reason = moderate_content(post['post_text'])
+        
+        if not is_clean:
+            logger.warning(f"⚠️ Post {i+1} moderated: {reason}")
+            # Replace with moderated message
+            moderated_post = post.copy()
+            moderated_post['post_text'] = "[This post was moderated for containing potentially inappropriate content. Please try generating again with a different topic.]"
+            moderated_post['hashtags'] = ["#ContentModerated"]
+            moderated_post['cta'] = "Please try again with a different topic."
+            moderated_posts.append(moderated_post)
+        else:
+            moderated_posts.append(post)
+    
+    return moderated_posts
+
+
 async def create_linkedin_posts(
     topic: str,
     tone: Optional[str] = None,
     audience: Optional[str] = None,
     post_count: int = 3,
+    use_web_search: bool = False,
     api_key: str = ""
-) -> List[Dict]:
+) -> Dict:
     """
     Create LinkedIn posts using agentic AI logic with multi-step process
     
@@ -154,10 +300,11 @@ async def create_linkedin_posts(
         tone: Optional tone (e.g., professional, casual, inspirational)
         audience: Optional target audience (e.g., software engineers, marketers)
         post_count: Number of posts to generate (default: 3)
+        use_web_search: Whether to enhance with real-time web search
         api_key: Groq API key
     
     Returns:
-        List of dictionaries with post_text, hashtags, and cta
+        Dictionary containing posts, metrics, and metadata
     """
     
     # Initialize LLM client
@@ -165,8 +312,22 @@ async def create_linkedin_posts(
     
     logger.info(f"🎯 Starting LinkedIn post generation for topic: {topic}")
     
+    context = ""
+    
+    # Step 0 - Research (optional): Web search for real-time data
+    if use_web_search:
+        logger.info("🔍 Step 0: Researching with web search...")
+        context = await web_search(f"{topic} latest news trends 2025")
+        if context:
+            logger.info("✅ Web search context obtained")
+        else:
+            logger.warning("⚠️ Web search failed, proceeding without context")
+    
     # Step A - Brainstorming: Generate different angles
-    brainstorm_prompt = f"Based on the topic '{topic}', brainstorm {post_count} unique angles for a LinkedIn post. Return only a numbered list of these angles."
+    if context:
+        brainstorm_prompt = f"Using the following recent context about {topic}, brainstorm {post_count} unique angles for a LinkedIn post. Context: {context}\n\nReturn only a numbered list of these angles."
+    else:
+        brainstorm_prompt = f"Based on the topic '{topic}', brainstorm {post_count} unique angles for a LinkedIn post. Return only a numbered list of these angles."
     
     logger.info("📝 Step A: Brainstorming angles...")
     angles_response = await llm_client.generate_text(brainstorm_prompt, max_tokens=500)
@@ -201,10 +362,11 @@ async def create_linkedin_posts(
     
     tone_text = f"The tone should be {tone}. " if tone else ""
     audience_text = f"The target audience is {audience}. " if audience else ""
+    context_text = f"Use this context for factual accuracy: {context}\n\n" if context else ""
     
     draft_tasks = []
     for i, angle in enumerate(angles):
-        draft_prompt = f"Write a LinkedIn post from the angle: '{angle}'. {audience_text}{tone_text}The post should be engaging and around 150 words. Include emojis where appropriate."
+        draft_prompt = f"{context_text}Write a LinkedIn post from the angle: '{angle}'. {audience_text}{tone_text}The post should be engaging and around 150 words. Include emojis where appropriate."
         task = llm_client.generate_text(draft_prompt, max_tokens=800)
         draft_tasks.append(task)
     
@@ -268,20 +430,45 @@ Return only the JSON object."""
         
         final_posts.append(final_post)
     
-    logger.info(f"🎉 Successfully generated {len(final_posts)} LinkedIn posts")
-    return final_posts
+    # Step D - Content Moderation
+    logger.info("🛡️ Step D: Applying content moderation...")
+    moderated_posts = apply_content_moderation(final_posts)
+    
+    # Get performance metrics
+    metrics = llm_client.get_metrics()
+    
+    logger.info(f"🎉 Successfully generated {len(moderated_posts)} LinkedIn posts")
+    
+    return {
+        "posts": moderated_posts,
+        "metrics": metrics,
+        "used_web_search": use_web_search,
+        "context_found": bool(context)
+    }
 
 
 # Test function for development
 async def test_post_generation():
     """Test the post generation function"""
-    posts = await create_linkedin_posts(
+    result = await create_linkedin_posts(
         topic="artificial intelligence",
         tone="professional",
         audience="software engineers",
         post_count=2,
+        use_web_search=False,  # Set to True to test web search
         api_key=""  # Will use mock responses
     )
+    
+    posts = result["posts"]
+    metrics = result["metrics"]
+    
+    print(f"\n📊 Performance Metrics:")
+    print(f"Total Tokens: {metrics['total_tokens']}")
+    print(f"Total Latency: {metrics['total_latency']}s")
+    print(f"API Calls: {metrics['call_count']}")
+    print(f"Avg Latency per Call: {metrics['avg_latency_per_call']}s")
+    print(f"Used Web Search: {result['used_web_search']}")
+    print(f"Context Found: {result['context_found']}")
     
     for i, post in enumerate(posts, 1):
         print(f"\n=== POST {i} ===")

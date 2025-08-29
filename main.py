@@ -9,7 +9,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
-from post_generator import create_linkedin_posts
+from post_generator import create_linkedin_posts, LLMProviderError
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -47,14 +47,16 @@ class PostGenerationRequest(BaseModel):
     tone: Optional[str] = None
     audience: Optional[str] = None
     post_count: Optional[int] = 3
+    use_web_search: Optional[bool] = False
     
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "topic": "artificial intelligence",
                 "tone": "professional",
                 "audience": "software engineers",
-                "post_count": 3
+                "post_count": 3,
+                "use_web_search": False
             }
         }
 
@@ -63,9 +65,18 @@ class PostResponse(BaseModel):
     hashtags: List[str]
     cta: str
 
+class PerformanceMetrics(BaseModel):
+    total_tokens: int
+    total_latency: float
+    call_count: int
+    avg_latency_per_call: float
+
 class GenerationResponse(BaseModel):
     posts: List[PostResponse]
     message: str
+    metrics: PerformanceMetrics
+    used_web_search: bool
+    context_found: bool
 
 # API Endpoints
 @app.get("/")
@@ -98,11 +109,12 @@ async def generate_posts(request: PostGenerationRequest):
             raise HTTPException(status_code=400, detail="Post count must be between 1 and 10")
         
         # Generate posts
-        posts = await create_linkedin_posts(
+        result = await create_linkedin_posts(
             topic=request.topic.strip(),
             tone=request.tone,
             audience=request.audience,
             post_count=request.post_count or 3,
+            use_web_search=request.use_web_search or False,
             api_key=config.get("groq_api_key", "")
         )
         
@@ -113,16 +125,32 @@ async def generate_posts(request: PostGenerationRequest):
                 hashtags=post["hashtags"],
                 cta=post["cta"]
             )
-            for post in posts
+            for post in result["posts"]
         ]
+        
+        metrics_response = PerformanceMetrics(
+            total_tokens=result["metrics"]["total_tokens"],
+            total_latency=result["metrics"]["total_latency"],
+            call_count=result["metrics"]["call_count"],
+            avg_latency_per_call=result["metrics"]["avg_latency_per_call"]
+        )
         
         logger.info(f"✅ Successfully generated {len(post_responses)} posts")
         
         return GenerationResponse(
             posts=post_responses,
-            message=f"Successfully generated {len(post_responses)} LinkedIn posts"
+            message=f"Successfully generated {len(post_responses)} LinkedIn posts",
+            metrics=metrics_response,
+            used_web_search=result["used_web_search"],
+            context_found=result["context_found"]
         )
         
+    except LLMProviderError as e:
+        logger.error(f"❌ LLM Provider error: {str(e)}")
+        raise HTTPException(
+            status_code=502,
+            detail=f"The AI service provider is currently unavailable: {str(e)}"
+        )
     except Exception as e:
         logger.error(f"❌ Error generating posts: {str(e)}")
         raise HTTPException(
@@ -136,6 +164,13 @@ async def get_docs():
     return {"message": "Visit /docs for interactive API documentation"}
 
 # Error handlers
+@app.exception_handler(LLMProviderError)
+async def llm_provider_error_handler(request, exc):
+    return HTTPException(
+        status_code=502,
+        detail=f"The AI service provider is currently unavailable: {str(exc)}"
+    )
+
 @app.exception_handler(404)
 async def not_found_handler(request, exc):
     return {"error": "Endpoint not found", "detail": "The requested endpoint does not exist"}

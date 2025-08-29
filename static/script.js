@@ -17,6 +17,7 @@ const topicInput = document.getElementById('topic');
 const toneSelect = document.getElementById('tone');
 const audienceInput = document.getElementById('audience');
 const postCountInput = document.getElementById('postCount');
+const useWebSearchCheckbox = document.getElementById('useWebSearch');
 
 // State management
 let isGenerating = false;
@@ -94,7 +95,8 @@ function getFormData() {
         topic: topicInput.value.trim(),
         tone: toneSelect.value || null,
         audience: audienceInput.value.trim() || null,
-        post_count: parseInt(postCountInput.value)
+        post_count: parseInt(postCountInput.value),
+        use_web_search: useWebSearchCheckbox.checked
     };
 }
 
@@ -120,16 +122,35 @@ async function generatePosts(formData) {
         const data = await response.json();
         
         if (!response.ok) {
-            throw new Error(data.detail || `HTTP ${response.status}: ${response.statusText}`);
+            const errorData = await response.json();
+            let errorMessage = errorData.detail || `HTTP ${response.status}: ${response.statusText}`;
+            
+            // Handle specific error types
+            if (response.status === 502) {
+                errorMessage = "AI service is temporarily unavailable. Please try again in a few moments.";
+            } else if (response.status === 400) {
+                errorMessage = `Invalid request: ${errorData.detail}`;
+            }
+            
+            throw new Error(errorMessage);
         }
         
         console.log('📥 Received response:', data);
         
-        displayResults(data.posts);
+        displayResults(data);
         
     } catch (error) {
         console.error('❌ Error generating posts:', error);
-        showError(`Failed to generate posts: ${error.message}`);
+        
+        // Show specific error message from server
+        let displayMessage = error.message;
+        
+        // Handle network errors
+        if (error.name === 'TypeError' && error.message.includes('fetch')) {
+            displayMessage = 'Unable to connect to the server. Please check your internet connection.';
+        }
+        
+        showError(displayMessage);
     } finally {
         setLoadingState(false);
     }
@@ -152,12 +173,54 @@ function setLoadingState(loading) {
 /**
  * Display generated posts
  */
-function displayResults(posts) {
-    // Clear previous results
+function displayResults(data) {
+    // Clear previous results and metrics
     postsContainer.innerHTML = '';
+    
+    // Remove any existing metrics
+    const existingMetrics = document.querySelector('.performance-metrics');
+    if (existingMetrics) {
+        existingMetrics.remove();
+    }
+    
+    const posts = data.posts;
+    const metrics = data.metrics;
     
     // Update results count
     resultsCount.textContent = `${posts.length} post${posts.length !== 1 ? 's' : ''} generated`;
+    
+    // Create performance metrics display
+    const metricsHtml = `
+        <div class="performance-metrics">
+            <div class="metrics-header">
+                <i class="fas fa-chart-line"></i>
+                Performance Metrics
+            </div>
+            <div class="metrics-content">
+                <div class="metric-item">
+                    <span class="metric-label">Generation Time:</span>
+                    <span class="metric-value">${metrics.total_latency}s</span>
+                </div>
+                <div class="metric-item">
+                    <span class="metric-label">Tokens Used:</span>
+                    <span class="metric-value">${metrics.total_tokens.toLocaleString()}</span>
+                </div>
+                <div class="metric-item">
+                    <span class="metric-label">API Calls:</span>
+                    <span class="metric-value">${metrics.call_count}</span>
+                </div>
+                ${data.used_web_search ? `
+                <div class="metric-item">
+                    <span class="metric-label">Web Search:</span>
+                    <span class="metric-value">${data.context_found ? '✅ Enhanced' : '⚠️ No results'}</span>
+                </div>
+                ` : ''}
+            </div>
+        </div>
+    `;
+    
+    // Insert metrics before posts container
+    postsContainer.insertAdjacentHTML('beforebegin', metricsHtml);
     
     // Create post cards
     posts.forEach((post, index) => {
@@ -271,8 +334,9 @@ function getCurrentPosts() {
 /**
  * Store current posts data
  */
-function setCurrentPosts(posts) {
-    window.currentPosts = posts;
+function setCurrentPosts(data) {
+    window.currentPosts = data.posts || data; // Handle both old and new response formats
+    window.currentData = data; // Store full response data
 }
 
 /**
@@ -334,9 +398,9 @@ window.copyPost = copyPost;
 
 // Store posts when displaying results
 const originalDisplayResults = displayResults;
-displayResults = function(posts) {
-    setCurrentPosts(posts);
-    originalDisplayResults(posts);
+displayResults = function(data) {
+    setCurrentPosts(data);
+    originalDisplayResults(data);
 };
 
 // Health check on page load

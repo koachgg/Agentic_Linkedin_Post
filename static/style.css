@@ -136,6 +136,35 @@ body {
     font-size: 0.85rem;
 }
 
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.form-checkbox {
+    width: 18px;
+    height: 18px;
+    accent-color: #0077b5;
+    cursor: pointer;
+}
+
+.checkbox-label {
+    font-weight: 600;
+    color: #2c3e50;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    margin: 0;
+}
+
+.checkbox-label i {
+    color: #0077b5;
+    width: 16px;
+}
+
 .generate-btn {
     background: linear-gradient(135deg, #0077b5 0%, #005885 100%);
     color: white;
@@ -209,6 +238,56 @@ body {
 
 .results-section.show {
     display: block;
+}
+
+/* Performance metrics */
+.performance-metrics {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border: 1px solid #dee2e6;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.metrics-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+}
+
+.metrics-header i {
+    color: #0077b5;
+}
+
+.metrics-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.metric-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background: white;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+}
+
+.metric-label {
+    font-weight: 500;
+    color: #6c757d;
+}
+
+.metric-value {
+    font-weight: 600;
+    color: #0077b5;
 }
 
 .results-header {
