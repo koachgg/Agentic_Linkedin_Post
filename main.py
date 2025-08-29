@@ -68,11 +68,12 @@ def load_config():
     """
     
     # Try environment variable first (for production deployment)
-    groq_api_key = os.getenv("GROQ_API_KEY")
+    groq_api_key = os.getenv("GROQ_API_KEY") or os.getenv("GROK_API_KEY")  # Support both spellings
     
     # Debug logging for deployment troubleshooting
-    logger.info(f"🔍 Environment variable GROQ_API_KEY: {'SET' if groq_api_key else 'NOT SET'}")
-    logger.info(f"🔍 Railway Environment Check - All env vars: {list(os.environ.keys())}")
+    logger.info(f"🔍 Environment variable GROQ_API_KEY: {'SET' if os.getenv('GROQ_API_KEY') else 'NOT SET'}")
+    logger.info(f"🔍 Environment variable GROK_API_KEY: {'SET' if os.getenv('GROK_API_KEY') else 'NOT SET'}")
+    logger.info(f"🔑 Final API key selected: {'SET' if groq_api_key else 'NOT SET'}")
     
     if groq_api_key:
         logger.info(f"🔑 Using API key from environment variable: {groq_api_key[:10]}...")
