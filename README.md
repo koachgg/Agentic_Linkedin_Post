@@ -1,8 +1,30 @@
 # LinkedIn Post Generator - Enhanced Edition
 
-A fully functional web application that generates engaging LinkedIn posts using advanced agentic AI. Built with FastAPI backend and modern HTML/CSS/JavaScript frontend, now enhanced with real-time web search, performance metrics, and content moderation.
+A fully functional web application that generates engaging LinkedIn posts using advanced agentic AI. Built with FastAPI backend and modern HTML/CSS/JavaScript frontend, featuring a beautiful Nugget.com-inspired dark theme, real-time streaming, and comprehensive user feedback.
 
-## 🚀 New Enhanced Features
+## 🎨 **New UI/UX Features**
+
+### 🌙 **Nugget.com-Inspired Dark Theme**
+- **Dark Navy Background** (#0A0E1A) for a professional, modern look
+- **Vibrant Purple Accents** (#8B5CF6) for buttons and interactive elements
+- **Inter Font Family** for clean, readable typography
+- **Single-Column Layout** for focused, distraction-free experience
+- **Minimalist Design** with generous whitespace and clean lines
+- **White Post Cards** with subtle shadows for excellent contrast
+
+### ⚡ **Real-time Streaming API**
+- **Live Progress Updates** during post generation
+- **Progressive Post Rendering** - see posts as they're created
+- **Dynamic Progress Bar** with status messages
+- **Streaming Performance Metrics** for real-time insights
+
+### 👥 **User Feedback System**
+- **Thumbs Up/Down Buttons** on each generated post
+- **Instant Visual Confirmation** when feedback is submitted
+- **Backend Logging** of all user ratings for analytics
+- **Elegant Feedback UI** with smooth animations
+
+## 🚀 Enhanced Features
 
 ### 🔍 **Real-time Web Search Integration**
 - Optional web search to enhance posts with current, factual information
@@ -43,6 +65,8 @@ A fully functional web application that generates engaging LinkedIn posts using 
 
 - **Advanced Features**:
   - Copy-to-clipboard functionality
+  - User feedback collection
+  - Streaming API responses
   - Performance metrics display
   - Content moderation indicators
   - Real-time validation and error handling

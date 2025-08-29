@@ -1,6 +1,35 @@
 """
 LinkedIn Post Generator with Agentic AI Logic
-Enhanced with web search, performance metrics, and content moderation
+
+This module implements an advanced AI-powered LinkedIn post generation system
+using agentic workflows, real-time web search, and comprehensive content moderation.
+
+Key Components:
+1. LLMClient: Unified interface for multiple AI providers (Groq, Gemini)
+2. Agentic Workflow: Multi-step content creation process
+3. Web Search Integration: Real-time information gathering
+4. Content Moderation: Safety and quality filtering
+5. Performance Metrics: Comprehensive tracking and monitoring
+6. Streaming Support: Real-time progress updates
+
+Agentic Workflow Steps:
+A. Research Phase: Optional web search for current information
+B. Brainstorming: Generate multiple content angles and ideas
+C. Drafting: Create initial posts for each angle in parallel
+D. Refinement: Add hashtags, CTAs, and polish content
+E. Moderation: Apply safety filters and quality checks
+
+Features:
+- Supports multiple AI providers with automatic fallback
+- Real-time web search integration using DuckDuckGo
+- Content moderation for profanity and spam detection
+- Performance metrics tracking (tokens, latency, calls)
+- Streaming API for real-time progress updates
+- Comprehensive error handling and logging
+
+Author: LinkedIn Post Generator Team
+Date: August 2025
+Version: 2.0.0
 """
 
 import asyncio
@@ -25,7 +54,33 @@ class ContentModerationError(Exception):
     pass
 
 class LLMClient:
-    """Unified LLM client supporting Gemini and Groq APIs with performance tracking"""
+    """
+    Unified LLM client supporting multiple AI providers with performance tracking.
+    
+    This class provides a consistent interface for interacting with different
+    Large Language Model providers (Groq, Gemini) while automatically tracking
+    performance metrics and providing fallback behavior.
+    
+    Features:
+    - Multi-provider support (Groq, Gemini)
+    - Automatic performance metrics tracking
+    - Mock mode for development/testing
+    - Comprehensive error handling
+    - Token and latency monitoring
+    
+    Attributes:
+        provider (str): The AI provider being used ('groq' or 'gemini')
+        api_key (str): API key for the provider
+        use_mock (bool): Whether to use mock responses
+        total_tokens (int): Total tokens used across all calls
+        total_latency (float): Total time spent on API calls
+        call_count (int): Number of API calls made
+        
+    Example:
+        >>> client = LLMClient(provider="groq", api_key="your_key")
+        >>> response = await client.generate_text("Write a LinkedIn post about AI")
+        >>> metrics = client.get_metrics()
+    """
     
     def __init__(self, provider: str = "groq", api_key: str = ""):
         self.provider = provider.lower()
@@ -445,6 +500,201 @@ Return only the JSON object."""
         "used_web_search": use_web_search,
         "context_found": bool(context)
     }
+
+
+# Streaming version of post generation
+async def create_linkedin_posts_stream(
+    topic: str,
+    tone: Optional[str] = None,
+    audience: Optional[str] = None,
+    post_count: int = 3,
+    use_web_search: bool = False,
+    api_key: str = ""
+):
+    """
+    Generate LinkedIn posts with streaming updates for real-time feedback
+    
+    Yields progress updates as JSON objects with different event types:
+    - status: General progress updates
+    - post: Individual completed posts
+    - metrics: Performance metrics
+    - complete: Final completion message
+    """
+    try:
+        # Initialize client
+        llm_client = LLMClient(provider="groq", api_key=api_key)
+        
+        yield {
+            "status": "starting",
+            "message": "Initializing post generation...",
+            "progress": 5
+        }
+        
+        context = ""
+        
+        # Step 0 - Research (optional): Web search for real-time data
+        if use_web_search:
+            yield {
+                "status": "researching",
+                "message": "Searching for latest information...",
+                "progress": 15
+            }
+            
+            context = await web_search(f"{topic} latest news trends 2025")
+            if context:
+                logger.info("✅ Web search context obtained")
+            else:
+                logger.warning("⚠️ Web search failed, proceeding without context")
+        
+        # Step A - Brainstorming: Generate different angles
+        yield {
+            "status": "brainstorming",
+            "message": "Brainstorming content angles...",
+            "progress": 25
+        }
+        
+        if context:
+            brainstorm_prompt = f"Using the following recent context about {topic}, brainstorm {post_count} unique angles for a LinkedIn post. Context: {context}\n\nReturn only a numbered list of these angles."
+        else:
+            brainstorm_prompt = f"Based on the topic '{topic}', brainstorm {post_count} unique angles for a LinkedIn post. Return only a numbered list of these angles."
+        
+        angles_response = await llm_client.generate_text(brainstorm_prompt, max_tokens=500)
+        
+        # Parse angles from response
+        angles = []
+        for line in angles_response.split('\n'):
+            line = line.strip()
+            if line and (line[0].isdigit() or line.startswith('-') or line.startswith('•')):
+                angle = line.split('.', 1)[-1].strip()
+                if angle:
+                    angles.append(angle)
+        
+        # Fallback if parsing fails
+        if not angles:
+            angles = [
+                f"Personal experience with {topic}",
+                f"Industry trends related to {topic}",
+                f"Best practices for {topic}"
+            ]
+            if post_count > 3:
+                angles.extend([f"Future of {topic}", f"Common mistakes in {topic}"][:post_count-3])
+        
+        angles = angles[:post_count]
+        
+        # Step B - Drafting: Create posts for each angle
+        yield {
+            "status": "drafting",
+            "message": f"Creating {len(angles)} post drafts...",
+            "progress": 40
+        }
+        
+        tone_text = f"The tone should be {tone}. " if tone else ""
+        audience_text = f"The target audience is {audience}. " if audience else ""
+        context_text = f"Use this context for factual accuracy: {context}\n\n" if context else ""
+        
+        draft_tasks = []
+        for i, angle in enumerate(angles):
+            draft_prompt = f"{context_text}Write a LinkedIn post from the angle: '{angle}'. {audience_text}{tone_text}The post should be engaging and around 150 words. Include emojis where appropriate."
+            task = llm_client.generate_text(draft_prompt, max_tokens=800)
+            draft_tasks.append(task)
+        
+        # Execute all drafting tasks in parallel
+        drafted_posts = await asyncio.gather(*draft_tasks)
+        
+        # Step C - Refinement: Extract hashtags and CTAs
+        yield {
+            "status": "refining",
+            "message": "Adding hashtags and call-to-actions...",
+            "progress": 65
+        }
+        
+        refinement_tasks = []
+        for post in drafted_posts:
+            refinement_prompt = f"""For the following LinkedIn post, generate 5 relevant hashtags and a compelling call-to-action (CTA). 
+Format the output as JSON with 'hashtags' and 'cta' keys. 
+
+Post: {post}
+
+Return only the JSON object."""
+            
+            task = llm_client.generate_text(refinement_prompt, max_tokens=300)
+            refinement_tasks.append(task)
+        
+        # Execute all refinement tasks in parallel
+        refinement_responses = await asyncio.gather(*refinement_tasks)
+        
+        # Combine everything into final posts
+        final_posts = []
+        for i, (post, refinement) in enumerate(zip(drafted_posts, refinement_responses)):
+            try:
+                # Try to parse JSON response
+                if '{' in refinement and '}' in refinement:
+                    json_start = refinement.find('{')
+                    json_end = refinement.rfind('}') + 1
+                    json_str = refinement[json_start:json_end]
+                    refinement_data = json.loads(json_str)
+                    
+                    hashtags = refinement_data.get('hashtags', [])
+                    cta = refinement_data.get('cta', '')
+                else:
+                    raise ValueError("No JSON found")
+                    
+            except Exception as e:
+                logger.warning(f"⚠️ Failed to parse refinement for post {i+1}: {e}")
+                hashtags = [f"#{topic.replace(' ', '')}", "#LinkedIn", "#Professional", "#Growth", "#Insights"]
+                cta = "What are your thoughts? Share in the comments!"
+            
+            # Ensure hashtags are properly formatted
+            if isinstance(hashtags, list):
+                hashtags = [tag if tag.startswith('#') else f"#{tag.replace(' ', '')}" for tag in hashtags]
+            else:
+                hashtags = [f"#{topic.replace(' ', '')}", "#LinkedIn", "#Professional", "#Growth", "#Insights"]
+            
+            final_post = {
+                "post_text": post.strip(),
+                "hashtags": hashtags,
+                "cta": cta.strip()
+            }
+            
+            # Apply content moderation to individual post
+            moderated_post = apply_content_moderation([final_post])[0]
+            final_posts.append(moderated_post)
+            
+            # Yield each completed post
+            yield {
+                "type": "post",
+                "data": moderated_post,
+                "index": i,
+                "progress": 65 + (25 * (i + 1) / len(drafted_posts))
+            }
+        
+        # Final metrics
+        metrics = llm_client.get_metrics()
+        
+        yield {
+            "type": "metrics",
+            "data": metrics,
+            "progress": 95
+        }
+        
+        # Completion
+        yield {
+            "type": "complete",
+            "message": f"Successfully generated {len(final_posts)} LinkedIn posts",
+            "posts": final_posts,
+            "metrics": metrics,
+            "used_web_search": use_web_search,
+            "context_found": bool(context),
+            "progress": 100
+        }
+        
+    except Exception as e:
+        logger.error(f"❌ Error in streaming generation: {str(e)}")
+        yield {
+            "type": "error",
+            "message": str(e),
+            "progress": 0
+        }
 
 
 # Test function for development

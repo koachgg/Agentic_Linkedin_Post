@@ -5,13 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LinkedIn Post Generator</title>
     <link rel="stylesheet" href="/static/style.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="container">
         <header class="header">
             <div class="header-content">
-                <i class="fab fa-linkedin header-icon"></i>
+                <svg class="header-icon" viewBox="0 0 24 24">
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                </svg>
                 <h1>LinkedIn Post Generator</h1>
                 <p>Create engaging LinkedIn posts with AI-powered content generation</p>
             </div>
@@ -22,7 +23,9 @@
                 <form id="postForm" class="post-form">
                     <div class="form-group">
                         <label for="topic" class="form-label">
-                            <i class="fas fa-lightbulb"></i>
+                            <svg viewBox="0 0 24 24">
+                                <path d="M9 21c0 .5.4 1 1 1h4c.6 0 1-.5 1-1v-1H9v1zm3-19C8.1 2 5 5.1 5 9c0 2.4 1.2 4.5 3 5.7V17c0 .5.4 1 1 1h6c.6 0 1-.5 1-1v-2.3c1.8-1.3 3-3.4 3-5.7 0-3.9-3.1-7-7-7z"/>
+                            </svg>
                             Topic <span class="required">*</span>
                         </label>
                         <input 
@@ -39,7 +42,9 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label for="tone" class="form-label">
-                                <i class="fas fa-palette"></i>
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                </svg>
                                 Tone
                             </label>
                             <select id="tone" name="tone" class="form-select">
@@ -55,7 +60,9 @@
 
                         <div class="form-group">
                             <label for="audience" class="form-label">
-                                <i class="fas fa-users"></i>
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zm4 18v-6h2.5l-2.54-7.63A2.996 2.996 0 0 0 17.14 7H16c-.8 0-1.54.37-2.01.99L12 10l-1.99-2.01A2.994 2.994 0 0 0 8 7H6.86c-1.27 0-2.4.8-2.82 2.37L1.5 16H4v6h4v-6h2v6h4zM12.5 11.5c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5S11 9.17 11 10s.67 1.5 1.5 1.5z"/>
+                                </svg>
                                 Target Audience
                             </label>
                             <input 
@@ -70,7 +77,9 @@
 
                     <div class="form-group">
                         <label for="postCount" class="form-label">
-                            <i class="fas fa-hashtag"></i>
+                            <svg viewBox="0 0 24 24">
+                                <path d="M9.5 12L2 4.5 5.5 1 13 8.5 18.5 3l3.5 3.5L15 13.5l7 7-3.5 3.5-7-7L8.5 20 5 16.5 9.5 12z"/>
+                            </svg>
                             Number of Posts
                         </label>
                         <input 
@@ -89,7 +98,9 @@
                         <div class="checkbox-group">
                             <input type="checkbox" id="useWebSearch" name="useWebSearch" class="form-checkbox">
                             <label for="useWebSearch" class="checkbox-label">
-                                <i class="fas fa-search"></i>
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                                </svg>
                                 Enhance with real-time web search
                             </label>
                         </div>
@@ -97,7 +108,9 @@
                     </div>
 
                     <button type="submit" class="generate-btn" id="generateBtn">
-                        <i class="fas fa-magic"></i>
+                        <svg viewBox="0 0 24 24">
+                            <path d="M14,2A8,8 0 0,0 6,10A8,8 0 0,0 14,18A8,8 0 0,0 22,10H20C20,13.32 17.32,16 14,16A6,6 0 0,1 8,10A6,6 0 0,1 14,4C14.64,4 15.27,4.1 15.86,4.29L16.19,2.86C15.5,2.29 14.8,2 14,2M20.27,4.14L18.89,5.55L20.34,7L21.75,5.59L20.27,4.14M21,9V11H23V9H21Z"/>
+                        </svg>
                         <span class="btn-text">Generate Posts</span>
                         <div class="loading-spinner" id="loadingSpinner"></div>
                     </button>
@@ -114,7 +127,9 @@
 
             <div class="error-section" id="errorSection">
                 <div class="error-message">
-                    <i class="fas fa-exclamation-triangle"></i>
+                    <svg viewBox="0 0 24 24">
+                        <path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/>
+                    </svg>
                     <div class="error-text" id="errorText"></div>
                 </div>
             </div>
