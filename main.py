@@ -145,6 +145,16 @@ async def health_check():
         "api_configured": bool(config.get("groq_api_key"))
     }
 
+@app.get("/favicon.ico")
+async def favicon_ico():
+    """Redirect favicon.ico to favicon.svg"""
+    return FileResponse("static/favicon.svg")
+
+@app.get("/favicon.svg")
+async def favicon_svg():
+    """Serve the favicon SVG"""
+    return FileResponse("static/favicon.svg")
+
 @app.post("/generate_posts", response_model=GenerationResponse)
 async def generate_posts(request: PostGenerationRequest):
     """
@@ -248,11 +258,12 @@ async def generate_posts_stream(request: PostGenerationRequest):
     
     return StreamingResponse(
         stream_posts(),
-        media_type="text/plain",
+        media_type="text/event-stream",
         headers={
             "Cache-Control": "no-cache",
             "Connection": "keep-alive",
-            "Content-Type": "text/stream"
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Headers": "Cache-Control"
         }
     )
 
@@ -298,6 +309,21 @@ async def submit_feedback(request: PostFeedbackRequest):
             status_code=500,
             detail="Failed to process feedback"
         )
+
+@app.post("/test")
+async def test_endpoint(request: PostGenerationRequest):
+    """Test endpoint to verify form submission is working"""
+    logger.info(f"🧪 Test endpoint called with data: {request}")
+    return {
+        "message": "Test successful! Form submission is working.",
+        "received_data": {
+            "topic": request.topic,
+            "tone": request.tone,
+            "audience": request.audience,
+            "post_count": request.post_count,
+            "use_web_search": request.use_web_search
+        }
+    }
 
 @app.get("/api/docs")
 async def get_docs():
