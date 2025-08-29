@@ -1,0 +1,5 @@
+{
+    "_comment": "Configuration template - Copy this to config.json and add your actual API key",
+    "_instructions": "Get your free API key from https://console.groq.com/keys",
+    "groq_api_key": "your_groq_api_key_here"
+}

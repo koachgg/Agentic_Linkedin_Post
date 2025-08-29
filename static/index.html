@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinkedIn Post Generator</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <i class="fab fa-linkedin header-icon"></i>
+                <h1>LinkedIn Post Generator</h1>
+                <p>Create engaging LinkedIn posts with AI-powered content generation</p>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="form-section">
+                <form id="postForm" class="post-form">
+                    <div class="form-group">
+                        <label for="topic" class="form-label">
+                            <i class="fas fa-lightbulb"></i>
+                            Topic <span class="required">*</span>
+                        </label>
+                        <input 
+                            type="text" 
+                            id="topic" 
+                            name="topic" 
+                            class="form-input" 
+                            placeholder="e.g., artificial intelligence, remote work, leadership"
+                            required
+                        >
+                        <small class="form-help">What would you like to write about?</small>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="tone" class="form-label">
+                                <i class="fas fa-palette"></i>
+                                Tone
+                            </label>
+                            <select id="tone" name="tone" class="form-select">
+                                <option value="">Select tone (optional)</option>
+                                <option value="professional">Professional</option>
+                                <option value="casual">Casual</option>
+                                <option value="inspirational">Inspirational</option>
+                                <option value="thought-provoking">Thought-provoking</option>
+                                <option value="humorous">Humorous</option>
+                                <option value="educational">Educational</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="audience" class="form-label">
+                                <i class="fas fa-users"></i>
+                                Target Audience
+                            </label>
+                            <input 
+                                type="text" 
+                                id="audience" 
+                                name="audience" 
+                                class="form-input" 
+                                placeholder="e.g., software engineers, marketers, entrepreneurs"
+                            >
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="postCount" class="form-label">
+                            <i class="fas fa-hashtag"></i>
+                            Number of Posts
+                        </label>
+                        <input 
+                            type="number" 
+                            id="postCount" 
+                            name="postCount" 
+                            class="form-input" 
+                            min="1" 
+                            max="10" 
+                            value="3"
+                        >
+                        <small class="form-help">Generate 1-10 posts (default: 3)</small>
+                    </div>
+
+                    <button type="submit" class="generate-btn" id="generateBtn">
+                        <i class="fas fa-magic"></i>
+                        <span class="btn-text">Generate Posts</span>
+                        <div class="loading-spinner" id="loadingSpinner"></div>
+                    </button>
+                </form>
+            </div>
+
+            <div class="results-section" id="resultsSection">
+                <div class="results-header">
+                    <h2>Generated Posts</h2>
+                    <span class="results-count" id="resultsCount"></span>
+                </div>
+                <div class="posts-container" id="postsContainer"></div>
+            </div>
+
+            <div class="error-section" id="errorSection">
+                <div class="error-message">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <div class="error-text" id="errorText"></div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>&copy; 2025 LinkedIn Post Generator. Powered by AI.</p>
+        </footer>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
