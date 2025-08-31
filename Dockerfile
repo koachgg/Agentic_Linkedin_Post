@@ -4,11 +4,15 @@ FROM python:3.9-slim
 # Set working directory
 WORKDIR /app
 
-# Copy requirements file
-COPY requirements.txt .
+# Copy requirements and asset downloader
+COPY requirements.txt download_assets.py ./
 
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
+
+# Download and vendor external assets (Tailwind CSS, Chart.js)
+# This ensures dependencies are available locally, bypassing CSP issues
+RUN python download_assets.py
 
 # Copy application files
 COPY . .
