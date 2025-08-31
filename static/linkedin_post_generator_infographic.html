@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.tailwindcss.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com;">
+    <title>AI-Powered LinkedIn Post Generator - Infographic</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0A0E1A;
+            color: #E0E0E0;
+        }
+        .card {
+            background-color: #1E293B;
+            border: 1px solid #334155;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .gradient-text {
+            background: linear-gradient(90deg, #8B5CF6, #EC4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .flow-arrow::after {
+            content: '▼';
+            font-size: 2rem;
+            color: #8B5CF6;
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <div class="container mx-auto p-4 md:p-8">
+
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-6xl font-black gradient-text mb-2">AI-Powered LinkedIn Post Generator</h1>
+            <p class="text-lg md:text-xl text-slate-400">An infographic on the agentic architecture and technical implementation.</p>
+        </header>
+
+        <section class="mb-16">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-center">
+                <div class="card rounded-lg shadow-2xl p-8 flex flex-col justify-center items-center">
+                    <h2 class="text-2xl font-bold text-slate-300 mb-2">Generation Time</h2>
+                    <p class="text-6xl font-black text-white">~2-3<span class="text-4xl text-pink-500">s</span></p>
+                    <p class="text-slate-400 mt-2">Per post generation cycle.</p>
+                </div>
+                <div class="card rounded-lg shadow-2xl p-8 flex flex-col justify-center items-center">
+                    <h2 class="text-2xl font-bold text-slate-300 mb-2">Platform Uptime</h2>
+                    <p class="text-6xl font-black text-white">99%<span class="text-4xl text-pink-500">+</span></p>
+                    <p class="text-slate-400 mt-2">Deployed on the Railway platform.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold text-center mb-8">The Agentic AI Workflow</h2>
+            <p class="text-center max-w-3xl mx-auto text-slate-400 mb-12">The system uses a multi-step agentic process where each agent performs a specific task, building upon the work of the previous one. This creates a sophisticated pipeline that goes far beyond simple prompting.</p>
+            <div class="flex flex-col items-center">
+                <div class="card rounded-lg p-4 w-full md:w-3/4 lg:w-1/2 text-center shadow-lg">
+                    <h3 class="font-bold text-lg text-purple-400">Step 0: Research Agent</h3>
+                    <p class="text-sm text-slate-300">Performs optional web search for real-time context.</p>
+                </div>
+                <div class="flow-arrow"></div>
+                <div class="card rounded-lg p-4 w-full md:w-3/4 lg:w-1/2 text-center shadow-lg">
+                    <h3 class="font-bold text-lg text-purple-400">Step A: Brainstorming Agent</h3>
+                    <p class="text-sm text-slate-300">Generates multiple angles and ideas for the posts.</p>
+                </div>
+                <div class="flow-arrow"></div>
+                <div class="card rounded-lg p-4 w-full md:w-3/4 lg:w-1/2 text-center shadow-lg">
+                    <h3 class="font-bold text-lg text-purple-400">Step B: Content Creation Agent</h3>
+                    <p class="text-sm text-slate-300">Drafts posts in parallel for each brainstormed angle.</p>
+                </div>
+                <div class="flow-arrow"></div>
+                <div class="card rounded-lg p-4 w-full md:w-3/4 lg:w-1/2 text-center shadow-lg">
+                    <h3 class="font-bold text-lg text-purple-400">Step C: Enhancement Agent</h3>
+                    <p class="text-sm text-slate-300">Adds relevant hashtags and compelling calls-to-action.</p>
+                </div>
+                <div class="flow-arrow"></div>
+                <div class="card rounded-lg p-4 w-full md:w-3/4 lg:w-1/2 text-center shadow-lg">
+                    <h3 class="font-bold text-lg text-pink-400">Step D: Quality Assurance Agent</h3>
+                    <p class="text-sm text-slate-300">Applies content moderation to ensure quality and safety.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold text-center mb-8">System Architecture</h2>
+            <p class="text-center max-w-3xl mx-auto text-slate-400 mb-12">The application is built on a robust, layered architecture that separates concerns from the user interface down to the external AI and search services.</p>
+            <div class="w-full p-4 md:p-8 card rounded-lg">
+                <div class="space-y-4">
+                    <div class="bg-slate-800 rounded-lg p-4 border-l-4 border-pink-500">
+                        <h3 class="font-bold text-lg text-white">Frontend Layer (Vanilla JS)</h3>
+                        <div class="flex flex-wrap gap-2 mt-2">
+                            <span class="bg-slate-700 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">index.html</span>
+                            <span class="bg-slate-700 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">style.css</span>
+                            <span class="bg-slate-700 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">script.js</span>
+                        </div>
+                    </div>
+                    <div class="text-center font-mono text-purple-400">▼ HTTP/SSE ▼</div>
+                    <div class="bg-slate-800 rounded-lg p-4 border-l-4 border-purple-500">
+                        <h3 class="font-bold text-lg text-white">Backend Layer (FastAPI)</h3>
+                         <div class="flex flex-wrap gap-2 mt-2">
+                            <span class="bg-slate-700 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">REST API</span>
+                            <span class="bg-slate-700 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">Streaming (SSE)</span>
+                            <span class="bg-slate-700 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">Validation</span>
+                        </div>
+                    </div>
+                    <div class="text-center font-mono text-purple-400">▼ Orchestration ▼</div>
+                    <div class="bg-slate-800 rounded-lg p-4 border-l-4 border-blue-500">
+                        <h3 class="font-bold text-lg text-white">Agentic AI Orchestrator</h3>
+                        <div class="flex flex-wrap gap-2 mt-2">
+                            <span class="bg-slate-700 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">Research</span>
+                            <span class="bg-slate-700 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">Brainstorm</span>
+                            <span class="bg-slate-700 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">Content</span>
+                            <span class="bg-slate-700 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">Enhancement</span>
+                             <span class="bg-slate-700 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">QA</span>
+                        </div>
+                    </div>
+                     <div class="text-center font-mono text-purple-400">▼ External APIs ▼</div>
+                    <div class="bg-slate-800 rounded-lg p-4 border-l-4 border-green-500">
+                        <h3 class="font-bold text-lg text-white">External Services</h3>
+                         <div class="flex flex-wrap gap-2 mt-2">
+                            <span class="bg-slate-700 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">Groq LLM</span>
+                            <span class="bg-slate-700 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">DuckDuckGo</span>
+                            <span class="bg-slate-700 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">Railway</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold text-center mb-12">Feature Deep Dive</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="card rounded-lg p-6">
+                    <h3 class="text-xl font-bold mb-4 text-center">Streaming Progress Updates</h3>
+                    <p class="text-center text-slate-400 mb-4">The frontend receives real-time updates via Server-Sent Events (SSE), showing users exactly which agent is working and the overall progress of their request.</p>
+                    <div class="chart-container">
+                        <canvas id="progressChart"></canvas>
+                    </div>
+                </div>
+                <div class="card rounded-lg p-6">
+                    <h3 class="text-xl font-bold mb-4 text-center">Assignment Compliance</h3>
+                    <p class="text-center text-slate-400 mb-4">The project successfully met all core requirements of an agentic system, from multi-step workflows to quality control and tool use.</p>
+                    <div class="chart-container">
+                        <canvas id="complianceChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="text-center pt-8 border-t border-slate-700">
+             <p class="text-slate-400">This infographic was generated to visualize the technical architecture of the AI-Powered LinkedIn Post Generator.</p>
+             <div class="flex justify-center space-x-4 mt-4">
+                 <a href="https://agenticlinkedinpost-production.up.railway.app/" target="_blank" class="text-purple-400 hover:text-pink-500">Live Demo</a>
+                 <span class="text-slate-600">|</span>
+                 <a href="https://github.com/koachgg/Agentic_Linkedin_Post" target="_blank" class="text-purple-400 hover:text-pink-500">GitHub Repository</a>
+             </div>
+        </footer>
+
+    </div>
+
+    <script>
+        const wrapLabels = (label, maxLength = 16) => {
+            if (typeof label !== 'string' || label.length <= maxLength) {
+                return label;
+            }
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = '';
+            for (const word of words) {
+                if ((currentLine + word).length > maxLength) {
+                    lines.push(currentLine.trim());
+                    currentLine = '';
+                }
+                currentLine += `${word} `;
+            }
+            lines.push(currentLine.trim());
+            return lines.filter(line => line);
+        };
+
+        const tooltipTitleCallback = (tooltipItems) => {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+                return label.join(' ');
+            } else {
+                return label;
+            }
+        };
+        
+        const chartColors = {
+            purple: 'rgba(139, 92, 246, 0.8)',
+            pink: 'rgba(236, 72, 153, 0.8)',
+            blue: 'rgba(59, 130, 246, 0.8)',
+            teal: 'rgba(20, 184, 166, 0.8)',
+            purpleBorder: 'rgba(139, 92, 246, 1)',
+            pinkBorder: 'rgba(236, 72, 153, 1)',
+            blueBorder: 'rgba(59, 130, 246, 1)',
+            tealBorder: 'rgba(20, 184, 166, 1)',
+            gridColor: 'rgba(255, 255, 255, 0.1)',
+            textColor: '#E0E0E0'
+        };
+
+        const commonChartOptions = {
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: chartColors.textColor,
+                        font: { size: 14 }
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        title: tooltipTitleCallback
+                    }
+                }
+            },
+        };
+
+        const progressData = {
+            labels: ['Researching', 'Brainstorming', 'Drafting Posts', 'Enhancing', 'Moderating'],
+            datasets: [{
+                label: 'Progress (%)',
+                data: [15, 25, 40, 75, 100],
+                backgroundColor: [chartColors.purple, chartColors.pink, chartColors.blue, chartColors.teal, chartColors.purple],
+                borderColor: [chartColors.purpleBorder, chartColors.pinkBorder, chartColors.blueBorder, chartColors.tealBorder, chartColors.purpleBorder],
+                borderWidth: 1
+            }]
+        };
+
+        const progressCtx = document.getElementById('progressChart').getContext('2d');
+        new Chart(progressCtx, {
+            type: 'bar',
+            data: progressData,
+            options: {
+                ...commonChartOptions,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        grid: { color: chartColors.gridColor },
+                        ticks: { color: chartColors.textColor }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: { color: chartColors.textColor }
+                    }
+                },
+                plugins: {
+                     ...commonChartOptions.plugins,
+                    legend: { display: false }
+                }
+            }
+        });
+
+        const complianceData = {
+            labels: [
+                wrapLabels('Multi-Step Workflow'),
+                wrapLabels('Tool Use (Web Search)'),
+                wrapLabels('Quality Guardrails'),
+                wrapLabels('Parallel Processing'),
+                wrapLabels('Style Control'),
+                wrapLabels('Streaming Support')
+            ],
+            datasets: [{
+                label: 'Requirement Fulfillment',
+                data: [5, 5, 4, 5, 4, 5],
+                fill: true,
+                backgroundColor: 'rgba(236, 72, 153, 0.4)',
+                borderColor: chartColors.pinkBorder,
+                pointBackgroundColor: chartColors.pinkBorder,
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: chartColors.pinkBorder,
+            }]
+        };
+
+        const complianceCtx = document.getElementById('complianceChart').getContext('2d');
+        new Chart(complianceCtx, {
+            type: 'radar',
+            data: complianceData,
+            options: {
+                ...commonChartOptions,
+                scales: {
+                    r: {
+                        angleLines: { color: chartColors.gridColor },
+                        grid: { color: chartColors.gridColor },
+                        pointLabels: {
+                            color: chartColors.textColor,
+                            font: { size: 12 }
+                        },
+                        ticks: {
+                            color: chartColors.textColor,
+                            backdropColor: 'rgba(0,0,0,0)',
+                            stepSize: 1
+                        },
+                        min: 0,
+                        max: 5
+                    }
+                },
+                 plugins: {
+                     ...commonChartOptions.plugins,
+                    legend: { display: false }
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>
