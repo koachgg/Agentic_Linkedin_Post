@@ -7,10 +7,6 @@ sdk: docker
 app_port: 7860
 pinned: false
 license: apache-2.0
-custom_headers:
-  cross-origin-embedder-policy: unsafe-none
-  cross-origin-opener-policy: unsafe-none
-  cross-origin-resource-policy: cross-origin
 ---
 
 # 🚀 LinkedIn Post Generator - Enhanced Edition
