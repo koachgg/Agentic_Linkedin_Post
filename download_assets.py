@@ -7,7 +7,8 @@ VENDOR_DIR = "static/vendor"
 
 # Dictionary of assets to download {filename: url}
 ASSETS = {
-    "tailwind.min.css": "https://cdn.tailwindcss.com/3.3.0",
+    # CORRECTED: Save the Tailwind CDN script as a .js file
+    "tailwind.js": "https://cdn.tailwindcss.com",
     "chart.min.js": "https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.min.js"
 }
 # --- End Configuration ---
@@ -40,7 +41,7 @@ def main():
     success_count = 0
     for filename, url in ASSETS.items():
         filepath = os.path.join(VENDOR_DIR, filename)
-        print(f"⬇️ Downloading {url} to {filepath}...")
+        print(f"⬭️ Downloading {url} to {filepath}...")
         if download_file(url, filepath):
             success_count += 1
 
