@@ -154,9 +154,9 @@ async def serve_index():
 
 @app.get("/infographic")
 async def serve_infographic():
-    """Serve the LinkedIn Post Generator infographic page"""
+    """Serve the beautiful LinkedIn Post Generator infographic page"""
     import os
-    file_path = "static/linkedin_post_generator_infographic.html"
+    file_path = "static/infographic_beautiful.html"
     
     # Debug logging
     logger.info(f"🎨 Serving beautiful infographic from: {file_path}")
@@ -165,7 +165,7 @@ async def serve_infographic():
     if os.path.exists(file_path):
         return FileResponse(file_path, media_type="text/html")
     else:
-        logger.error(f"❌ Infographic file not found at: {file_path}")
+        logger.error(f"❌ Beautiful infographic file not found at: {file_path}")
         raise HTTPException(status_code=404, detail="Infographic file not found")
 
 @app.get("/health")

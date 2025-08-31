@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 LinkedIn Post Generator - Beautiful Infographic</title>
+    <!-- Use CDN directly for reliability -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0A0E1A 0%, #1E293B 50%, #0F172A 100%);
+            min-height: 100vh;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(90deg, #8B5CF6, #EC4899, #F59E0B);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradient-shift 3s ease-in-out infinite;
+        }
+        
+        @keyframes gradient-shift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .glow-card {
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .glow-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(139, 92, 246, 0.6);
+            box-shadow: 0 20px 40px rgba(139, 92, 246, 0.2);
+        }
+        
+        .stats-number {
+            background: linear-gradient(135deg, #8B5CF6, #EC4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .workflow-step {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(236, 72, 153, 0.1));
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .workflow-step:hover {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(236, 72, 153, 0.2));
+            border-color: rgba(139, 92, 246, 0.5);
+        }
+        
+        .arrow-down {
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        
+        .feature-icon {
+            background: linear-gradient(135deg, #8B5CF6, #EC4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .tech-badge {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(236, 72, 153, 0.2));
+            border: 1px solid rgba(139, 92, 246, 0.4);
+            transition: all 0.3s ease;
+        }
+        
+        .tech-badge:hover {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(236, 72, 153, 0.3));
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body class="text-gray-100">
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+        
+        <!-- Header -->
+        <header class="text-center mb-16">
+            <h1 class="text-5xl md:text-7xl font-black gradient-text mb-4">
+                🚀 LinkedIn Post Generator
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-400 font-light">
+                AI-Powered Content Creation with Agentic Architecture
+            </p>
+            <div class="mt-6 flex justify-center">
+                <div class="h-1 w-24 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"></div>
+            </div>
+        </header>
+
+        <!-- Key Statistics -->
+        <section class="mb-20">
+            <h2 class="text-3xl font-bold text-center mb-12 text-white">⚡ Performance Metrics</h2>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="glow-card rounded-xl p-6 text-center">
+                    <div class="stats-number text-5xl font-black mb-2">2-3s</div>
+                    <div class="text-gray-400">Generation Time</div>
+                    <div class="text-sm text-gray-500 mt-1">Per post cycle</div>
+                </div>
+                <div class="glow-card rounded-xl p-6 text-center">
+                    <div class="stats-number text-5xl font-black mb-2">99%+</div>
+                    <div class="text-gray-400">Uptime</div>
+                    <div class="text-sm text-gray-500 mt-1">Multi-platform</div>
+                </div>
+                <div class="glow-card rounded-xl p-6 text-center">
+                    <div class="stats-number text-5xl font-black mb-2">5</div>
+                    <div class="text-gray-400">AI Agents</div>
+                    <div class="text-sm text-gray-500 mt-1">Agentic workflow</div>
+                </div>
+                <div class="glow-card rounded-xl p-6 text-center">
+                    <div class="stats-number text-5xl font-black mb-2">3+</div>
+                    <div class="text-gray-400">Deployments</div>
+                    <div class="text-sm text-gray-500 mt-1">Render, Railway, HF</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Agentic Workflow -->
+        <section class="mb-20">
+            <h2 class="text-3xl font-bold text-center mb-8 text-white">🤖 The Agentic AI Workflow</h2>
+            <p class="text-center text-gray-400 mb-12 max-w-4xl mx-auto text-lg">
+                Our system uses a sophisticated multi-agent approach where each AI agent performs a specialized task, 
+                building upon the work of previous agents to create high-quality LinkedIn content.
+            </p>
+            
+            <div class="max-w-3xl mx-auto">
+                <div class="space-y-4">
+                    <!-- Agent 1 -->
+                    <div class="workflow-step rounded-lg p-6 flex items-center">
+                        <div class="text-4xl mr-4">🔍</div>
+                        <div class="flex-1">
+                            <h3 class="text-xl font-bold text-purple-400 mb-2">Research Agent</h3>
+                            <p class="text-gray-300">Performs optional web search for real-time context and trending topics</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-center">
+                        <div class="arrow-down text-purple-500 text-3xl">▼</div>
+                    </div>
+                    
+                    <!-- Agent 2 -->
+                    <div class="workflow-step rounded-lg p-6 flex items-center">
+                        <div class="text-4xl mr-4">💡</div>
+                        <div class="flex-1">
+                            <h3 class="text-xl font-bold text-purple-400 mb-2">Brainstorming Agent</h3>
+                            <p class="text-gray-300">Generates multiple creative angles and approaches for the content</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-center">
+                        <div class="arrow-down text-purple-500 text-3xl">▼</div>
+                    </div>
+                    
+                    <!-- Agent 3 -->
+                    <div class="workflow-step rounded-lg p-6 flex items-center">
+                        <div class="text-4xl mr-4">✍️</div>
+                        <div class="flex-1">
+                            <h3 class="text-xl font-bold text-purple-400 mb-2">Content Creation Agent</h3>
+                            <p class="text-gray-300">Drafts engaging posts in parallel for each brainstormed angle</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-center">
+                        <div class="arrow-down text-purple-500 text-3xl">▼</div>
+                    </div>
+                    
+                    <!-- Agent 4 -->
+                    <div class="workflow-step rounded-lg p-6 flex items-center">
+                        <div class="text-4xl mr-4">✨</div>
+                        <div class="flex-1">
+                            <h3 class="text-xl font-bold text-purple-400 mb-2">Enhancement Agent</h3>
+                            <p class="text-gray-300">Adds relevant hashtags and compelling calls-to-action</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-center">
+                        <div class="arrow-down text-purple-500 text-3xl">▼</div>
+                    </div>
+                    
+                    <!-- Agent 5 -->
+                    <div class="workflow-step rounded-lg p-6 flex items-center">
+                        <div class="text-4xl mr-4">🛡️</div>
+                        <div class="flex-1">
+                            <h3 class="text-xl font-bold text-pink-400 mb-2">Quality Assurance Agent</h3>
+                            <p class="text-gray-300">Applies content moderation to ensure quality and safety</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Key Features -->
+        <section class="mb-20">
+            <h2 class="text-3xl font-bold text-center mb-12 text-white">✨ Key Features</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="glow-card rounded-xl p-6 text-center">
+                    <div class="feature-icon text-5xl mb-4">🤖</div>
+                    <h3 class="text-xl font-bold text-white mb-3">AI-Powered</h3>
+                    <p class="text-gray-400">Uses advanced LLaMA models via Groq API for high-quality content generation</p>
+                </div>
+                <div class="glow-card rounded-xl p-6 text-center">
+                    <div class="feature-icon text-5xl mb-4">⚡</div>
+                    <h3 class="text-xl font-bold text-white mb-3">Real-time Streaming</h3>
+                    <p class="text-gray-400">Watch posts being generated live with progressive updates</p>
+                </div>
+                <div class="glow-card rounded-xl p-6 text-center">
+                    <div class="feature-icon text-5xl mb-4">🎯</div>
+                    <h3 class="text-xl font-bold text-white mb-3">Multiple Formats</h3>
+                    <p class="text-gray-400">Various post types and styles tailored for different audiences</p>
+                </div>
+                <div class="glow-card rounded-xl p-6 text-center">
+                    <div class="feature-icon text-5xl mb-4">📊</div>
+                    <h3 class="text-xl font-bold text-white mb-3">Analytics Ready</h3>
+                    <p class="text-gray-400">Optimized content designed for maximum LinkedIn engagement</p>
+                </div>
+                <div class="glow-card rounded-xl p-6 text-center">
+                    <div class="feature-icon text-5xl mb-4">🌐</div>
+                    <h3 class="text-xl font-bold text-white mb-3">Web Search</h3>
+                    <p class="text-gray-400">Optional real-time web search for current trends and data</p>
+                </div>
+                <div class="glow-card rounded-xl p-6 text-center">
+                    <div class="feature-icon text-5xl mb-4">📱</div>
+                    <h3 class="text-xl font-bold text-white mb-3">Responsive Design</h3>
+                    <p class="text-gray-400">Clean, professional interface that works on all devices</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technology Stack -->
+        <section class="mb-20">
+            <h2 class="text-3xl font-bold text-center mb-12 text-white">🛠️ Technology Stack</h2>
+            <div class="bg-gray-900/50 rounded-2xl p-8 border border-purple-500/30">
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+                    <div class="tech-badge rounded-lg p-4 text-center">
+                        <div class="text-2xl mb-2">🐍</div>
+                        <div class="font-semibold">Python</div>
+                        <div class="text-sm text-gray-400">Backend</div>
+                    </div>
+                    <div class="tech-badge rounded-lg p-4 text-center">
+                        <div class="text-2xl mb-2">⚡</div>
+                        <div class="font-semibold">FastAPI</div>
+                        <div class="text-sm text-gray-400">Framework</div>
+                    </div>
+                    <div class="tech-badge rounded-lg p-4 text-center">
+                        <div class="text-2xl mb-2">🤖</div>
+                        <div class="font-semibold">Groq LLaMA</div>
+                        <div class="text-sm text-gray-400">AI Model</div>
+                    </div>
+                    <div class="tech-badge rounded-lg p-4 text-center">
+                        <div class="text-2xl mb-2">🐳</div>
+                        <div class="font-semibold">Docker</div>
+                        <div class="text-sm text-gray-400">Container</div>
+                    </div>
+                    <div class="tech-badge rounded-lg p-4 text-center">
+                        <div class="text-2xl mb-2">🌐</div>
+                        <div class="font-semibold">JavaScript</div>
+                        <div class="text-sm text-gray-400">Frontend</div>
+                    </div>
+                    <div class="tech-badge rounded-lg p-4 text-center">
+                        <div class="text-2xl mb-2">🔍</div>
+                        <div class="font-semibold">DuckDuckGo</div>
+                        <div class="text-sm text-gray-400">Search</div>
+                    </div>
+                    <div class="tech-badge rounded-lg p-4 text-center">
+                        <div class="text-2xl mb-2">🚄</div>
+                        <div class="font-semibold">Railway</div>
+                        <div class="text-sm text-gray-400">Deploy</div>
+                    </div>
+                    <div class="tech-badge rounded-lg p-4 text-center">
+                        <div class="text-2xl mb-2">🎨</div>
+                        <div class="font-semibold">Render</div>
+                        <div class="text-sm text-gray-400">Deploy</div>
+                    </div>
+                    <div class="tech-badge rounded-lg p-4 text-center">
+                        <div class="text-2xl mb-2">🤗</div>
+                        <div class="font-semibold">HF Spaces</div>
+                        <div class="text-sm text-gray-400">Deploy</div>
+                    </div>
+                    <div class="tech-badge rounded-lg p-4 text-center">
+                        <div class="text-2xl mb-2">💎</div>
+                        <div class="font-semibold">Tailwind</div>
+                        <div class="text-sm text-gray-400">Styling</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call to Action -->
+        <section class="text-center">
+            <div class="glow-card rounded-2xl p-12 max-w-4xl mx-auto">
+                <h2 class="text-4xl font-bold gradient-text mb-6">Ready to Generate Amazing LinkedIn Posts?</h2>
+                <p class="text-xl text-gray-400 mb-8">
+                    Experience the power of agentic AI and create engaging content that drives results.
+                </p>
+                <div class="space-y-4 md:space-y-0 md:space-x-4 md:flex md:justify-center">
+                    <a href="/" class="inline-block bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold py-4 px-8 rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all duration-300 transform hover:scale-105">
+                        🚀 Start Generating Posts
+                    </a>
+                    <a href="/docs" class="inline-block border border-purple-500 text-purple-400 font-bold py-4 px-8 rounded-lg hover:bg-purple-500 hover:text-white transition-all duration-300">
+                        📚 View API Docs
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="text-center mt-16 text-gray-500">
+            <div class="h-px bg-gradient-to-r from-transparent via-purple-500 to-transparent mb-8"></div>
+            <p class="text-lg">Built with ❤️ for the LinkedIn community</p>
+            <p class="mt-2">Powered by Agentic AI Architecture</p>
+        </footer>
+    </div>
+</body>
+</html>
