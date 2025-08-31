@@ -1,0 +1,68 @@
+# Git and version control
+.git/
+.github/
+.gitignore
+
+# Documentation and guides
+*.md
+DEPLOYMENT.md
+ENHANCEMENT_SUMMARY.md
+ARCHITECTURE.md
+BRANCH_STRATEGY.md
+HUGGINGFACE_DEPLOYMENT.md
+DEPLOYMENT_COMPLETE.md
+EASY_DEPLOY.md
+GITHUB_SETUP.md
+PUSH_TO_GITHUB.md
+QUICK_START.md
+REVIEW_REQUEST.md
+
+# Development and testing files
+debug_app.py
+test_*.py
+deploy_*.py
+deploy_*.bat
+deploy_*.md
+setup_*.bat
+start.bat
+start_server.bat
+
+# Platform-specific deployment files
+Procfile
+render.yaml
+vercel.json
+runtime.txt
+
+# Development tools
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.log
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Local configuration (will use environment variables)
+config.json
+config.railway.json
+config.production.json
+
+# API keys and sensitive files (use environment variables instead)
+*.key
+*.pem
+.env.local
+.env.production

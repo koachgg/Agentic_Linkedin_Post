@@ -152,6 +152,11 @@ async def serve_index():
     """Serve the main index.html file"""
     return FileResponse("static/index.html")
 
+@app.get("/infographic")
+async def serve_infographic():
+    """Serve the LinkedIn Post Generator infographic page"""
+    return FileResponse("static/linkedin_post_generator_infographic.html")
+
 @app.get("/health")
 async def health_check():
     """Health check endpoint"""

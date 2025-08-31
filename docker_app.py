@@ -17,6 +17,9 @@ def main():
     
     print(f"🚀 Starting LinkedIn Post Generator on {host}:{port}")
     print(f"📊 Environment: {'Production' if os.environ.get('GROQ_API_KEY') else 'Development'}")
+    print(f"🌐 Main App: http://localhost:{port}/")
+    print(f"📈 Infographic: http://localhost:{port}/infographic")
+    print(f"📚 API Docs: http://localhost:{port}/docs")
     
     # Check for required environment variables
     if not os.environ.get("GROQ_API_KEY"):
