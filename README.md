@@ -1,15 +1,4 @@
----
-title: LinkedIn Post Generator
-emoji: 🚀
-colorFrom: blue
-colorTo: purple
-sdk: docker
-app_port: 7860
-pinned: false
-license: apache-2.0
----
-
-# LinkedIn Post Generator - Professional Edition
+# LinkedIn Post Generator 
 
 A comprehensive web application designed for generating professional LinkedIn content using advanced agentic AI architecture. Built with FastAPI backend and modern HTML/CSS/JavaScript frontend, featuring an enterprise-grade dark theme, real-time streaming capabilities, and comprehensive user feedback systems.
 
