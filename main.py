@@ -25,6 +25,7 @@ Version: 2.0.0
 
 import json
 import logging
+import os
 from datetime import datetime
 from typing import Optional, List
 from fastapi import FastAPI, HTTPException
@@ -50,33 +51,48 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 # Load configuration
 def load_config():
     """
-    Load configuration from config.json file.
-    
-    This function attempts to read the configuration file containing API keys
-    and other settings. It provides fallback behavior for missing or invalid files.
+    Load configuration from environment variables or config.json file.
+    Environment variables take precedence over config file.
     
     Returns:
         dict: Configuration dictionary containing API keys and settings.
-              Returns empty groq_api_key if file is missing or invalid.
               
-    Error Handling:
-        - FileNotFoundError: Returns default config with empty API key
-        - JSONDecodeError: Logs error and returns default config
+    Priority:
+        1. Environment variables (for production deployment)
+        2. config.json file (for local development)
+        3. Empty values (fallback)
         
     Example:
         >>> config = load_config()
         >>> api_key = config.get("groq_api_key", "")
     """
-
+    
+    # Try environment variable first (for production deployment)
+    groq_api_key = os.getenv("GROQ_API_KEY") or os.getenv("GROK_API_KEY")  # Support both spellings
+    
+    # Debug logging for deployment troubleshooting
+    logger.info(f"🔍 Environment variable GROQ_API_KEY: {'SET' if os.getenv('GROQ_API_KEY') else 'NOT SET'}")
+    logger.info(f"🔍 Environment variable GROK_API_KEY: {'SET' if os.getenv('GROK_API_KEY') else 'NOT SET'}")
+    logger.info(f"🔑 Final API key selected: {'SET' if groq_api_key else 'NOT SET'}")
+    
+    if groq_api_key:
+        logger.info(f"🔑 Using API key from environment variable: {groq_api_key[:10]}...")
+        return {"groq_api_key": groq_api_key}
+    
+    # Fallback to config.json file (for local development)
     try:
         with open("config.json", "r") as f:
-            return json.load(f)
+            config = json.load(f)
+            if config.get("groq_api_key"):
+                logger.info("✅ Using API key from config.json")
+                return config
     except FileNotFoundError:
-        logger.warning("⚠️ config.json not found, using empty API key")
-        return {"groq_api_key": ""}
+        logger.warning("⚠️ config.json not found")
     except json.JSONDecodeError:
         logger.error("❌ Invalid JSON in config.json")
-        return {"groq_api_key": ""}
+    
+    logger.warning("⚠️ No API key found - using empty key (will use mock responses)")
+    return {"groq_api_key": ""}
 
 # Global config
 config = load_config()

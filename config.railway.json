@@ -1,0 +1,5 @@
+{
+    "_comment": "Configuration for Railway deployment - API key comes from environment variable",
+    "_instructions": "Set GROQ_API_KEY environment variable in Railway dashboard",
+    "groq_api_key": ""
+}
