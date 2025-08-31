@@ -1,4 +1,15 @@
-# LinkedIn Post Generator - Enhanced Edition
+---
+title: LinkedIn Post Generator
+emoji: 🚀
+colorFrom: blue
+colorTo: purple
+sdk: docker
+app_port: 7860
+pinned: false
+license: apache-2.0
+---
+
+# 🚀 LinkedIn Post Generator - Enhanced Edition
 
 A fully functional web application that generates engaging LinkedIn posts using advanced agentic AI. Built with FastAPI backend and modern HTML/CSS/JavaScript frontend, featuring a beautiful Nugget.com-inspired dark theme, real-time streaming, and comprehensive user feedback.
 
