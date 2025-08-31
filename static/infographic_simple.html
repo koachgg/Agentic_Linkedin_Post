@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinkedIn Post Generator - Infographic</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #0A0E1A 0%, #1E293B 100%);
+            color: #E0E0E0;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .title {
+            font-size: 3rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, #8B5CF6, #EC4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #94A3B8;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .stat-card {
+            background: #1E293B;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        
+        .stat-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #CBD5E1;
+            margin-bottom: 1rem;
+        }
+        
+        .stat-value {
+            font-size: 4rem;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-unit {
+            font-size: 2.5rem;
+            color: #EC4899;
+        }
+        
+        .stat-desc {
+            color: #94A3B8;
+            font-size: 0.9rem;
+        }
+        
+        .workflow-section {
+            margin-bottom: 3rem;
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 2rem;
+            color: white;
+        }
+        
+        .section-desc {
+            text-align: center;
+            color: #94A3B8;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            font-size: 1.1rem;
+        }
+        
+        .workflow-steps {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .workflow-step {
+            background: #1E293B;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 1.5rem;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .step-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #8B5CF6;
+            margin-bottom: 0.5rem;
+        }
+        
+        .step-desc {
+            color: #CBD5E1;
+            font-size: 0.95rem;
+        }
+        
+        .arrow {
+            font-size: 2rem;
+            color: #8B5CF6;
+            margin: 0.5rem 0;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .feature-card {
+            background: #1E293B;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+        
+        .feature-desc {
+            color: #94A3B8;
+            font-size: 0.9rem;
+        }
+        
+        .tech-stack {
+            background: #1E293B;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .tech-items {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .tech-item {
+            background: #334155;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2rem;
+            }
+            .stat-value {
+                font-size: 3rem;
+            }
+            .stat-unit {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="title">🚀 LinkedIn Post Generator</h1>
+            <p class="subtitle">AI-Powered Content Creation with Agentic Architecture</p>
+        </header>
+
+        <section class="stats-grid">
+            <div class="stat-card">
+                <h2 class="stat-title">Generation Time</h2>
+                <p class="stat-value">2-3<span class="stat-unit">s</span></p>
+                <p class="stat-desc">Per post generation cycle</p>
+            </div>
+            <div class="stat-card">
+                <h2 class="stat-title">Platform Uptime</h2>
+                <p class="stat-value">99<span class="stat-unit">%+</span></p>
+                <p class="stat-desc">Deployed on multiple platforms</p>
+            </div>
+            <div class="stat-card">
+                <h2 class="stat-title">AI Model</h2>
+                <p class="stat-value">LLaMA<span class="stat-unit">3.1</span></p>
+                <p class="stat-desc">Powered by Groq API</p>
+            </div>
+            <div class="stat-card">
+                <h2 class="stat-title">Deployments</h2>
+                <p class="stat-value">3<span class="stat-unit">+</span></p>
+                <p class="stat-desc">Render, Railway, HF Spaces</p>
+            </div>
+        </section>
+
+        <section class="workflow-section">
+            <h2 class="section-title">The Agentic AI Workflow</h2>
+            <p class="section-desc">
+                The system uses a multi-step agentic process where each agent performs a specific task, 
+                building upon the work of the previous one. This creates a sophisticated pipeline that 
+                goes far beyond simple prompting.
+            </p>
+            
+            <div class="workflow-steps">
+                <div class="workflow-step">
+                    <h3 class="step-title">🔍 Research Agent</h3>
+                    <p class="step-desc">Performs optional web search for real-time context and trending topics</p>
+                </div>
+                <div class="arrow">▼</div>
+                
+                <div class="workflow-step">
+                    <h3 class="step-title">💡 Brainstorming Agent</h3>
+                    <p class="step-desc">Generates multiple angles and creative ideas for the posts</p>
+                </div>
+                <div class="arrow">▼</div>
+                
+                <div class="workflow-step">
+                    <h3 class="step-title">✍️ Content Creation Agent</h3>
+                    <p class="step-desc">Drafts engaging posts in parallel for each brainstormed angle</p>
+                </div>
+                <div class="arrow">▼</div>
+                
+                <div class="workflow-step">
+                    <h3 class="step-title">✨ Enhancement Agent</h3>
+                    <p class="step-desc">Adds relevant hashtags and compelling calls-to-action</p>
+                </div>
+                <div class="arrow">▼</div>
+                
+                <div class="workflow-step">
+                    <h3 class="step-title">🛡️ Quality Assurance Agent</h3>
+                    <p class="step-desc">Applies content moderation to ensure quality and safety</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="workflow-section">
+            <h2 class="section-title">Key Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3 class="feature-title">AI-Powered</h3>
+                    <p class="feature-desc">Uses advanced LLaMA models via Groq API for high-quality content generation</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3 class="feature-title">Real-time Streaming</h3>
+                    <p class="feature-desc">Watch posts being generated live with progressive updates</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3 class="feature-title">Multiple Formats</h3>
+                    <p class="feature-desc">Various post types and styles tailored for different audiences</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3 class="feature-title">Analytics Ready</h3>
+                    <p class="feature-desc">Optimized content designed for maximum LinkedIn engagement</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌐</div>
+                    <h3 class="feature-title">Web Search</h3>
+                    <p class="feature-desc">Optional real-time web search for current trends and data</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3 class="feature-title">Responsive Design</h3>
+                    <p class="feature-desc">Clean, professional interface that works on all devices</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="workflow-section">
+            <div class="tech-stack">
+                <h2 class="section-title">Technology Stack</h2>
+                <div class="tech-items">
+                    <span class="tech-item">FastAPI</span>
+                    <span class="tech-item">Python</span>
+                    <span class="tech-item">Groq LLaMA</span>
+                    <span class="tech-item">Docker</span>
+                    <span class="tech-item">JavaScript</span>
+                    <span class="tech-item">HTML/CSS</span>
+                    <span class="tech-item">DuckDuckGo Search</span>
+                    <span class="tech-item">Railway</span>
+                    <span class="tech-item">Render</span>
+                    <span class="tech-item">HF Spaces</span>
+                </div>
+            </div>
+        </section>
+
+        <footer style="text-align: center; margin-top: 3rem; padding: 2rem; color: #64748B;">
+            <p>🚀 Built with ❤️ for the LinkedIn community</p>
+            <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+                <a href="/" style="color: #8B5CF6; text-decoration: none;">← Back to Post Generator</a>
+            </p>
+        </footer>
+    </div>
+</body>
+</html>

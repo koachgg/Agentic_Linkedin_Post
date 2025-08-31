@@ -156,18 +156,23 @@ async def serve_index():
 async def serve_infographic():
     """Serve the LinkedIn Post Generator infographic page"""
     import os
-    file_path = "static/linkedin_post_generator_infographic.html"
+    file_path = "static/infographic_simple.html"
     
     # Debug logging
     logger.info(f"🔍 Attempting to serve infographic from: {file_path}")
     logger.info(f"🔍 File exists: {os.path.exists(file_path)}")
-    logger.info(f"🔍 Current working directory: {os.getcwd()}")
     
     if os.path.exists(file_path):
         return FileResponse(file_path, media_type="text/html")
     else:
-        logger.error(f"❌ Infographic file not found at: {file_path}")
-        raise HTTPException(status_code=404, detail="Infographic file not found")
+        # Fallback to original file
+        original_path = "static/linkedin_post_generator_infographic.html"
+        logger.info(f"🔄 Falling back to: {original_path}")
+        if os.path.exists(original_path):
+            return FileResponse(original_path, media_type="text/html")
+        else:
+            logger.error(f"❌ No infographic files found")
+            raise HTTPException(status_code=404, detail="Infographic file not found")
 
 @app.get("/health")
 async def health_check():
