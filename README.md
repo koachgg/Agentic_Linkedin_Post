@@ -1,6 +1,6 @@
 # LinkedIn Post Generator - Professional AI Content Creation Platform
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-Hugging%20Face-orange)](https://koachgg-agentic-linkedin-post.hf.space/)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Hugging%20Face-orange)](https://koachgg-linkedin-post-generator.hf.space/infographic)
 [![GitHub](https://img.shields.io/badge/GitHub-Repository-blue)](https://github.com/koachgg/Agentic_Linkedin_Post)
 [![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](LICENSE)
 
